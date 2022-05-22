@@ -647,8 +647,8 @@ pub fn read_avif<T: Read>(f: &mut T) -> Result<AvifData> {
     if let Some(mut b) = iter.next_box()? {
         if b.head.name == BoxType::FileTypeBox {
             let ftyp = read_ftyp(&mut b)?;
-            if ftyp.major_brand != b"avif" {
-                return Err(Error::InvalidData("ftyp must be 'avif'"));
+            if ftyp.major_brand != b"avif" || ftyp.major_brand != b"mif1" {
+                return Err(Error::InvalidData("ftyp must be 'avif' or 'mif1'"));
             }
         } else {
             return Err(Error::InvalidData("'ftyp' box must occur first"));
